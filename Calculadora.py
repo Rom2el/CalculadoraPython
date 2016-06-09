@@ -1,66 +1,59 @@
-from tkinter import * 
-import sys
+import tkinter as tk
+ 
+def click(key):
+    global oper
+    if key == '=':
+        
+        if '/' in txtDisplay.get() and '.' not in txtDisplay.get():
+            txtDisplay.insert(tk.END, ".0")
+        
+        str1 = "-+0123456789."
 
-def limpiar():
-	txtDisplay.delete(0,END)
-	return
-def llenar():
-	
-	return
+        if txtDisplay.get()[0] not in str1:
+            txtDisplay.insert(tk.END, "Error" + str1)
+        
+        try:
+            resp = eval(txtDisplay.get())
+            txtDisplay.insert(tk.END, " = " + str(resp))
+        except:
+            txtDisplay.insert(tk.END, "Error!")
+    elif key == 'C':
+        txtDisplay.delete(0, tk.END)
 
-app = Tk()
-frame= Frame(app)
-frame.pack()
 
-app.title("Calculadora")
+        if '=' in oper:
+            ix = oper.find('=')
+            oper = oper[ix+2:]
+        app.title('M=' + oper)
 
-num1= StringVar()
+    else:
 
-txtDisplay = Entry(frame,textvariable = num1, bd=20,insertwidth=1, font =30)
-txtDisplay.pack(side=TOP)
-
-frame0 = Frame (app)
-frame0.pack(side = TOP)
-boton1= Button(frame0,padx=16,pady=16,bd=8,text=1,fg="black",command=llenar)
-boton1.pack(side=LEFT)
-boton2= Button(frame0,padx=16,pady=16,bd=8,text=2,fg="black")
-boton2.pack(side=LEFT)
-boton3= Button(frame0,padx=16,pady=16,bd=8,text=3,fg="black")
-boton3.pack(side=LEFT)
-boton4= Button(frame0,padx=16,pady=16,bd=8,text="+",fg="black")
-boton4.pack(side=LEFT)
-
-frame1=Frame(app)
-frame1.pack(side=TOP)
-boton5= Button(frame1,padx=16,pady=16,bd=8,text=4,fg="black")
-boton5.pack(side=LEFT)
-boton6= Button(frame1,padx=16,pady=16,bd=8,text=5,fg="black")
-boton6.pack(side=LEFT)
-boton7= Button(frame1,padx=16,pady=16,bd=8,text=6,fg="black")
-boton7.pack(side=LEFT)
-boton8= Button(frame1,padx=16,pady=16,bd=8,text="-",fg="black")
-boton8.pack(side=LEFT)
-
-frame2 = Frame (app)
-frame2.pack(side = TOP)
-boton1= Button(frame2,padx=16,pady=16,bd=8,text=7,fg="black")
-boton1.pack(side=LEFT)
-boton2= Button(frame2,padx=16,pady=16,bd=8,text=8,fg="black")
-boton2.pack(side=LEFT)
-boton3= Button(frame2,padx=16,pady=16,bd=8,text=9,fg="black")
-boton3.pack(side=LEFT)
-boton4= Button(frame2,padx=16,pady=16,bd=8,text="/",fg="black")
-boton4.pack(side=LEFT)
-
-frame3=Frame(app)
-frame3.pack(side=TOP)
-boton1= Button(frame3,padx=16,pady=16,bd=8,text="C",fg="black",command = limpiar)
-boton1.pack(side=LEFT)
-boton2= Button(frame3,padx=16,pady=16,bd=8,text=0,fg="black")
-boton2.pack(side=LEFT)
-boton3= Button(frame3,padx=16,pady=16,bd=8,text="=",fg="black")
-boton3.pack(side=LEFT)
-boton4= Button(frame3,padx=16,pady=16,bd=8,text="*",fg="black")
-boton4.pack(side=LEFT)
-
+        if '=' in txtDisplay.get():
+            txtDisplay.delete(0, tk.END)
+        txtDisplay.insert(tk.END, key)
+ 
+app = tk.Tk()
+app.title("calculadora")
+ 
+btn_list = [
+'7',  '8',  '9',  '*',  'C',
+'4',  '5',  '6',  '/',  ' ',
+'1',  '2',  '3',  '-',  ' ',
+'0',  '.',  '=',  '+',   ]
+ 
+#usamos la funcion loop para crear los botones
+r = 1
+c = 0
+for b in btn_list:
+    rel = 'ridge'
+    cmd = lambda x=b: click(x)
+    tk.Button(app,padx=10,pady=10,font=10,text=b,width=5,bd=3,relief=rel,command=cmd).grid(row=r,column=c)
+    c += 1
+    if c > 4:
+        c = 0
+        r += 1
+ 
+txtDisplay = tk.Entry(app, width=40, bg="Sky blue",bd=5,font=20)
+txtDisplay.grid(row=0, column=0, columnspan=5)
+ 
 app.mainloop()
