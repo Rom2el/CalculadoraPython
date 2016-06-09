@@ -20,6 +20,16 @@ valor = ""
 entrada_texto = Entry(vp, width=10, textvariable=valor)
 entrada_texto.grid(column=7, row=1)
 
+def botones():
+	num =0
+	for i in [1,3,5]:
+		for j in [1,3,5]:
+			num=num+1
+			boton = Button(vp, text=num, command=hacer_click)
+			boton.grid(column=j, row=i)
 
+
+
+botones()
 
 app.mainloop()
